@@ -17,6 +17,5 @@ public class AddressResponseDto {
     private String landmark;
     private String district;
     private AddressType addressType;  // PERMANENT, TEMPORARY and LOCAL
-
     private Student student;
 }

@@ -1,0 +1,50 @@
+{
+  "firstname": "Arjun",
+  "lastname": "Verma",
+  "rollNumber": "HUZ025090200",
+  "enrollmentNumber": "ENR20251003001",
+  "className": "11",
+  "section": "C",
+  "admissionDate": "2024-08-05",
+  "dateOfBirth": "2007-11-22",
+  "bloodGroup": "A-",
+  "user": {
+    "email": "sara.sheikh@example.com",
+    "phone": "9123456789",
+    "password": "ArjunSecure@2025",
+    "role": [
+      {
+        "roleType": "STUDENT"
+      }
+    ]
+  },
+  "documents": [
+    {
+      "documentType": "logo",
+      "documentImage": "grughseni.png"
+    }
+  ],
+  "addresses": [
+    {
+      "houseNumber": "123",
+      "street": "MG Road",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "country": "India",
+      "zipcode": "560001",
+      "landmark": "Near City Park",
+      "district": "Bengaluru Urban",
+      "addressType": "PERMANENT"
+    }
+  ],
+  "guardians": [
+    {
+      "name": "Rajesh Verma",
+      "phone": "9876543211",
+      "mobile": "9876543212",
+      "email": "rajesh.verma@example.com",
+      "relation": "Father",
+      "occupation": "Engineer"
+    }
+  ]
+}

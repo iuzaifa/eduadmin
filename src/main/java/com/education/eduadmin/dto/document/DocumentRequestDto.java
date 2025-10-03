@@ -8,5 +8,5 @@ public class DocumentRequestDto {
 
     private String documentType;   // Voter, Birth Certificate, etc.
     private String documentImage;  // Store file as BLOB ( binary )
-    private StudentRequestDto student;
+
 }

@@ -1,5 +1,6 @@
 package com.education.eduadmin.entity;
 
+import com.education.eduadmin.mapper.RoleMapper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roleType;
+
+    @OneToOne
+    private User user;
 
 
 

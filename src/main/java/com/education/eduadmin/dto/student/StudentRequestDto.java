@@ -3,13 +3,16 @@ package com.education.eduadmin.dto.student;
 import com.education.eduadmin.dto.address.AddressRequestDto;
 import com.education.eduadmin.dto.document.DocumentRequestDto;
 import com.education.eduadmin.dto.guardian.GuardianRequestDto;
+import com.education.eduadmin.dto.role.RoleRequestDto;
 import com.education.eduadmin.dto.user.UserRequestDto;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class StudentRequestDto {
@@ -41,6 +44,7 @@ public class StudentRequestDto {
     private String bloodGroup;
 
 
+    private Set<RoleRequestDto> role = new HashSet<>();
 
     private UserRequestDto user;
     private List<DocumentRequestDto> documents = new ArrayList<>();

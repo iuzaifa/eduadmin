@@ -15,5 +15,5 @@ public class UserResponseDto {
     private String phone;
     private String password;
 
-    private Set<RoleResponseDto> roleResponseDto = new HashSet<>();
+    private Set<RoleResponseDto> role = new HashSet<>();
 }

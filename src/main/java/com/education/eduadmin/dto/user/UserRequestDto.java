@@ -13,7 +13,6 @@ public class UserRequestDto {
     private String email;
     private String phone;
     private String password;
-
     private Set<RoleRequestDto> role = new HashSet<>(); // user 1, user 2.....
 
 }

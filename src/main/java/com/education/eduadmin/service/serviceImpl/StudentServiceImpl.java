@@ -1,29 +1,20 @@
 package com.education.eduadmin.service.serviceImpl;
 
+import com.education.eduadmin.dto.guardian.GuardianRequestDto;
 import com.education.eduadmin.dto.student.StudentRequestDto;
 import com.education.eduadmin.dto.student.StudentResponseDto;
-import com.education.eduadmin.dto.user.UserRequestDto;
-import com.education.eduadmin.dto.user.UserResponseDto;
-import com.education.eduadmin.entity.Address;
-import com.education.eduadmin.entity.Guardian;
-import com.education.eduadmin.entity.Student;
-import com.education.eduadmin.entity.User;
+import com.education.eduadmin.entity.*;
 import com.education.eduadmin.exceptions.AlreadyExitsException;
 import com.education.eduadmin.exceptions.ResourceNotFoundException;
-import com.education.eduadmin.mapper.AddressMapper;
-import com.education.eduadmin.mapper.GuardianMapper;
-import com.education.eduadmin.mapper.StudentMapper;
-import com.education.eduadmin.mapper.UserMapper;
-import com.education.eduadmin.repository.AddressRepository;
-import com.education.eduadmin.repository.GuardianRepository;
-import com.education.eduadmin.repository.StudentRepository;
-import com.education.eduadmin.repository.UserRepository;
+import com.education.eduadmin.mapper.*;
+import com.education.eduadmin.repository.*;
 import com.education.eduadmin.service.StudentService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -34,11 +25,13 @@ public class StudentServiceImpl implements StudentService {
     private final AddressRepository addressRepository;
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
+    private final DocumentRepository documentRepository;
 
     private final StudentMapper studentMapper;
     private final GuardianMapper guardianMapper;
     private final AddressMapper addressMapper;
     private final UserMapper userMapper;
+    private final DocumentMapper documentMapper;
 
 
 
@@ -51,12 +44,21 @@ public class StudentServiceImpl implements StudentService {
         if(userRepository.existsByPhone(requestDto.getUser().getPhone())){
             throw new AlreadyExitsException("Phone Already Exist");
         }
+
         Student student = studentMapper.toStudentEntity(requestDto);
 
         User user = userMapper.toUserEntity(requestDto.getUser());
         User savedUser = userRepository.save(user);
         student.setUser(savedUser);
 
+
+        List<Document> documents = requestDto.getDocuments()
+                .stream()
+                .map(documentMapper::toDocumentEntity)
+                .toList();
+        documents.forEach(docs -> docs.setStudent(student));
+        List<Document> saveDocs = documentRepository.saveAll(documents);
+        student.setDocuments(saveDocs);
 
 
         List<Address> addresses = requestDto.getAddresses()
@@ -66,6 +68,7 @@ public class StudentServiceImpl implements StudentService {
         addresses.forEach(address -> address.setStudent(student));
         List<Address> savedAddress = addressRepository.saveAll(addresses);
         student.setAddresses(savedAddress);
+
 
         List<Guardian> guardians = requestDto.getGuardians()
                 .stream()
