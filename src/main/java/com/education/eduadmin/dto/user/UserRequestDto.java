@@ -14,6 +14,6 @@ public class UserRequestDto {
     private String phone;
     private String password;
 
-    private Set<RoleRequestDto> roleDto = new HashSet<>(); // user 1, user 2.....
+    private Set<RoleRequestDto> role = new HashSet<>(); // user 1, user 2.....
 
 }

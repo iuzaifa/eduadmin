@@ -9,6 +9,7 @@ import com.education.eduadmin.entity.Guardian;
 import com.education.eduadmin.entity.Student;
 import com.education.eduadmin.entity.User;
 import com.education.eduadmin.exceptions.AlreadyExitsException;
+import com.education.eduadmin.exceptions.ResourceNotFoundException;
 import com.education.eduadmin.mapper.AddressMapper;
 import com.education.eduadmin.mapper.GuardianMapper;
 import com.education.eduadmin.mapper.StudentMapper;
@@ -20,8 +21,6 @@ import com.education.eduadmin.repository.UserRepository;
 import com.education.eduadmin.service.StudentService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Literal;
-import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,17 +45,19 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public StudentResponseDto addNewStudent(StudentRequestDto requestDto){
-        if(userRepository.existsByEmail(requestDto.getUserRequestDto().getEmail())){
+        if(userRepository.existsByEmail(requestDto.getUser().getEmail())){
             throw new AlreadyExitsException("User Already Exist");
         }
-        if(userRepository.existsByPhone(requestDto.getUserRequestDto().getPhone())){
+        if(userRepository.existsByPhone(requestDto.getUser().getPhone())){
             throw new AlreadyExitsException("Phone Already Exist");
         }
-
         Student student = studentMapper.toStudentEntity(requestDto);
-        User user = userMapper.toUserEntity(requestDto.getUserRequestDto());
+
+        User user = userMapper.toUserEntity(requestDto.getUser());
         User savedUser = userRepository.save(user);
         student.setUser(savedUser);
+
+
 
         List<Address> addresses = requestDto.getAddresses()
                 .stream()
@@ -73,34 +74,35 @@ public class StudentServiceImpl implements StudentService {
         List<Guardian> savedGuardian = guardianRepository.saveAll(guardians);
         student.setGuardians(savedGuardian);
 
+
         Student savedStudent = studentRepository.save(student);
         return  studentMapper.toStudentResponse(savedStudent);
     }
 
 
 
-//    @Override
-//    public List<StudentResponseDto> getAllStudents() {
-//        List<Student> students = studentRepository.findAll();
-//        return students.stream()
-//                .map(studentMapper::toResponseDto)
-//                .collect(Collectors.toList());
-//    }
+    @Override
+    public List<StudentResponseDto> getAllStudents() {
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .map(studentMapper::toStudentResponse)
+                .collect(Collectors.toList());
+    }
 
 
-//    @Override
-//    public StudentResponseDto getStudentById(Long id) {
-//        Student student = studentRepository.findById(id).orElseThrow(
-//                ()-> new ResourceNotFoundException(id + "Provide resource not found try another "));
-//        return studentMapper.toResponseDto(student);
-//    }
+    @Override
+    public StudentResponseDto getStudentById(Long id) {
+        Student student = studentRepository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException(id + "Provide resource not found try another "));
+        return studentMapper.toStudentResponse(student);
+    }
 
-//    @Override
-//    public void deleteStudentById(Long id) {
-//        Student student = studentRepository.findById(id).orElseThrow(
-//                ()-> new ResourceNotFoundException(id + "Provide resource not found try another "));
-//        studentRepository.delete(student);
-//    }
+    @Override
+    public void deleteStudentById(Long id) {
+        Student student = studentRepository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException(id + "Provide resource not found try another "));
+        studentRepository.delete(student);
+    }
 
 //    @Override
 //    public StudentResponseDto updateStudentById(Long id, StudentRequestDto requestDto) {

@@ -42,11 +42,8 @@ public class StudentRequestDto {
 
 
 
-    private UserRequestDto userRequestDto;
-
+    private UserRequestDto user;
     private List<DocumentRequestDto> documents = new ArrayList<>();
-
     private List<AddressRequestDto> addresses = new ArrayList<>();
-
     private List<GuardianRequestDto> guardians = new ArrayList<>();
 }

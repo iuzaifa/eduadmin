@@ -26,17 +26,17 @@ public class StudentController {
         return  new ResponseEntity<>(studentService.addNewStudent(requestDto), HttpStatus.CREATED);
     }
 
-//
-//    @GetMapping("/get-all")
-//    public ResponseEntity<List<StudentResponseDto>> getAllStudents(){
-//        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/get/{id}")
-//    public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long id){
-//        return ResponseEntity.ok(studentService.getStudentById(id));
-//    }
-//
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<StudentResponseDto>> getAllStudents(){
+        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long id){
+        return ResponseEntity.ok(studentService.getStudentById(id));
+    }
+
 //    @DeleteMapping("/delete/{id}")
 //    public ResponseEntity<String> deleteStudentById(@PathVariable Long id){
 //        studentService.deleteStudentById(id);

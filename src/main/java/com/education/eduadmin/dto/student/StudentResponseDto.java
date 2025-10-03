@@ -4,15 +4,6 @@ import com.education.eduadmin.dto.address.AddressResponseDto;
 import com.education.eduadmin.dto.document.DocumentRequestDto;
 import com.education.eduadmin.dto.guardian.GuardianResponseDto;
 import com.education.eduadmin.dto.user.UserResponseDto;
-import com.education.eduadmin.entity.Address;
-import com.education.eduadmin.entity.Document;
-import com.education.eduadmin.entity.Guardian;
-import com.education.eduadmin.entity.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 import java.time.LocalDate;
