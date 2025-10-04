@@ -40,5 +40,11 @@ public class GuardianController {
         return ResponseEntity.ok("Deleted Successfully "+ id);
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<GuardianResponseDto> getById(@PathVariable("id") Long id,
+                                                       @RequestBody GuardianRequestDto guardianRequestDto){
+        return ResponseEntity.ok(guardianService.updateGuardianById(id, guardianRequestDto));
+    }
+
 
 }
