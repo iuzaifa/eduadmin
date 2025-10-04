@@ -40,9 +40,7 @@ public class User {
     @JsonManagedReference
     private Student student;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Guardian guardian;
+
 
 
 

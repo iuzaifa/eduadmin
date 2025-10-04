@@ -10,6 +10,7 @@ import com.education.eduadmin.exceptions.ResourceNotFoundException;
 import com.education.eduadmin.mapper.GuardianMapper;
 import com.education.eduadmin.repository.GuardianRepository;
 import com.education.eduadmin.repository.StudentRepository;
+import com.education.eduadmin.repository.UserRepository;
 import com.education.eduadmin.service.GuardianService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,14 +24,30 @@ public class GuardianServiceImpl implements GuardianService {
 
     private final StudentRepository studentRepository;
     private final GuardianRepository guardianRepository;
+    private final UserRepository userRepository;
 
     private final GuardianMapper guardianMapper;
 
 
     @Override
-    public GuardianResponseDto addGuardian(Long id, GuardianRequestDto requestDto) {
+    public GuardianResponseDto   addGuardian(Long id, GuardianRequestDto requestDto) {
         Student student = studentRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Student Not found "));
+
+        boolean emailExistsInGuardian = guardianRepository.existsByEmail(requestDto.getEmail());
+        boolean emailExistsInUser = userRepository.existsByEmail(requestDto.getEmail());
+        if (emailExistsInGuardian || emailExistsInUser ){
+            throw new AlreadyExitsException("Already Exits this Email");
+        }
+        boolean mobileExistsInGuardian = guardianRepository.existsByMobile(requestDto.getMobile())  ;
+        if (mobileExistsInGuardian){
+            throw new AlreadyExitsException("Already Exits this Mobile : "+ requestDto.getMobile());
+        }
+        boolean  phoneExistsInGuardian = guardianRepository.existsByPhone(requestDto.getPhone());
+        boolean  phoneExistsInUser = userRepository.existsByPhone(requestDto.getPhone());
+        if (phoneExistsInUser || phoneExistsInGuardian){
+            throw new AlreadyExitsException("Already Exits this Phone");
+        }
 
         Guardian guardian = guardianMapper.toGuardianEntity(requestDto);
         if (student.getGuardians() != null && student.getGuardians().size() >= 5){
@@ -68,12 +85,25 @@ public class GuardianServiceImpl implements GuardianService {
     public GuardianResponseDto updateGuardianById(Long id, GuardianRequestDto requestDto) {
         Guardian guardian = guardianRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Guardian Not found "));
-
-        if (guardianRepository.existsByMobile(requestDto.getEmail())){
-            throw new AlreadyExitsException("Already Exits this Mobile");
+        boolean emailExistsInGuardian = guardianRepository.existsByEmail(requestDto.getEmail());
+        boolean emailExistsInUser = userRepository.existsByEmail(requestDto.getEmail());
+        if (emailExistsInGuardian || emailExistsInUser ){
+            throw new AlreadyExitsException("Already Exits this Email");
         }
+        boolean mobileExistsInGuardian = guardianRepository.existsByMobile(requestDto.getMobile())  ;
+        if (mobileExistsInGuardian){
+            throw new AlreadyExitsException("Already Exits this Mobile : "+ requestDto.getMobile());
+        }
+        boolean  phoneExistsInGuardian = guardianRepository.existsByPhone(requestDto.getPhone());
+        boolean  phoneExistsInUser = userRepository.existsByPhone(requestDto.getPhone());
+        if (phoneExistsInUser || phoneExistsInGuardian){
+            throw new AlreadyExitsException("Already Exits this Phone");
+        }
+//        not with out otp or verification
+//        guardian.setPhone(requestDto.getPhone());
+//        guardian.setEmail(requestDto.getEmail());
+//        guardian.setMobile(requestDto.getMobile());
         guardian.setName(requestDto.getName());
-        guardian.setMobile(requestDto.getMobile());
         guardian.setRelation(requestDto.getRelation());
         guardian.setOccupation(requestDto.getOccupation());
         Guardian updatedGuardian = guardianRepository.save(guardian);

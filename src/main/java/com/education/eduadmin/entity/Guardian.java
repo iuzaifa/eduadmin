@@ -21,9 +21,8 @@ public class Guardian {
 
     private String name;
 
-//    private String phone;
-//    private String email;
-
+    private String phone;
+    private String email;
     private String mobile;
     private String relation;
     private String occupation;
@@ -32,8 +31,5 @@ public class Guardian {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference
-    private User user;
+
 }
