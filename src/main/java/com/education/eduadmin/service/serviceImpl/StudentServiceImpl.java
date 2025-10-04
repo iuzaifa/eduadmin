@@ -41,6 +41,7 @@ public class StudentServiceImpl implements StudentService {
         if(userRepository.existsByEmail(requestDto.getUser().getEmail())){
             throw new AlreadyExitsException("User Already Exist");
         }
+
         if(userRepository.existsByPhone(requestDto.getUser().getPhone())){
             throw new AlreadyExitsException("Phone Already Exist");
         }
@@ -70,6 +71,11 @@ public class StudentServiceImpl implements StudentService {
         student.setAddresses(savedAddress);
 
 
+
+
+        // if guardian not exist than save
+        // check email and phone exist in db or not
+        // store only 5 guardian , Father, Mother, Grand Father and Mother, Brother Sister, Uncle, any else but only 5 can store
         List<Guardian> guardians = requestDto.getGuardians()
                 .stream()
                 .map(guardianMapper::toGuardianEntity).toList();

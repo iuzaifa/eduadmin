@@ -1,5 +1,6 @@
 package com.education.eduadmin.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,13 +20,20 @@ public class Guardian {
     private Long id;
 
     private String name;
-    private String phone;
+
+//    private String phone;
+//    private String email;
+
     private String mobile;
-    private String email;
     private String relation;
     private String occupation;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 }

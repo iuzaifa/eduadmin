@@ -9,5 +9,7 @@ import org.mapstruct.Mapper;
 public interface GuardianMapper {
 
     Guardian toGuardianEntity(GuardianRequestDto requestDto);
-    GuardianResponseDto tiGuardianResponse(Guardian guardian);
+    GuardianResponseDto toGuardianResponse(Guardian guardian);
+
+
 }

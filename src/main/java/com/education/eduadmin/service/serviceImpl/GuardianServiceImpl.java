@@ -14,6 +14,9 @@ import com.education.eduadmin.service.GuardianService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+
 @RequiredArgsConstructor
 @Service
 public class GuardianServiceImpl implements GuardianService {
@@ -23,21 +26,59 @@ public class GuardianServiceImpl implements GuardianService {
 
     private final GuardianMapper guardianMapper;
 
-    // student.getID , and update
-    // save one father mother, other can be multiple
 
     @Override
     public GuardianResponseDto addGuardian(Long id, GuardianRequestDto requestDto) {
         Student student = studentRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Student Not found "));
-        Guardian guardian = guardianMapper.toGuardianEntity(requestDto);
 
+        Guardian guardian = guardianMapper.toGuardianEntity(requestDto);
         if (student.getGuardians() != null && student.getGuardians().size() >= 5){
             throw new LimitException("Cannot add more than 5 guardians for the this student");
         }
         guardian.setStudent(student);
         Guardian saved = guardianRepository.save(guardian);
-        return guardianMapper.tiGuardianResponse(saved);
+        return guardianMapper.toGuardianResponse(saved);
+    }
+
+    @Override
+    public GuardianResponseDto guardianGetById(Long id) {
+        Guardian guardian = guardianRepository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Guardian Not found "));
+        return guardianMapper.toGuardianResponse(guardian);
+
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Guardian guardian = guardianRepository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Guardian Not found "));
+        guardianRepository.delete(guardian);
+    }
+
+    @Override
+    public List<GuardianResponseDto> getAllGuardians() {
+        List<Guardian> guardians = guardianRepository.findAll();
+        return guardians
+                .stream()
+                .map(guardianMapper::toGuardianResponse).toList();
+    }
+
+    @Override
+    public GuardianResponseDto updateGuardianById(Long id, GuardianRequestDto requestDto) {
+        Guardian guardian = guardianRepository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Guardian Not found "));
+
+        if (guardianRepository.existsByMobile(requestDto.getEmail())){
+            throw new AlreadyExitsException("Already Exits this Mobile");
+        }
+        guardian.setName(requestDto.getName());
+        guardian.setMobile(requestDto.getMobile());
+        guardian.setRelation(requestDto.getRelation());
+        guardian.setOccupation(requestDto.getOccupation());
+        Guardian updatedGuardian = guardianRepository.save(guardian);
+        return guardianMapper.toGuardianResponse(updatedGuardian);
+
     }
 
 
