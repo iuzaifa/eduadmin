@@ -1,11 +1,10 @@
 package com.education.eduadmin.service.serviceImpl;
 
-import com.education.eduadmin.dto.guardian.GuardianRequestDto;
 import com.education.eduadmin.dto.student.StudentRequestDto;
 import com.education.eduadmin.dto.student.StudentResponseDto;
 import com.education.eduadmin.entity.*;
-import com.education.eduadmin.exceptions.AlreadyExitsException;
-import com.education.eduadmin.exceptions.ResourceNotFoundException;
+import com.education.eduadmin.exceptions.custom.AlreadyExitsException;
+import com.education.eduadmin.exceptions.custom.ResourceNotFoundException;
 import com.education.eduadmin.mapper.*;
 import com.education.eduadmin.repository.*;
 import com.education.eduadmin.service.StudentService;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor

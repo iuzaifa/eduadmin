@@ -4,9 +4,9 @@ import com.education.eduadmin.dto.guardian.GuardianRequestDto;
 import com.education.eduadmin.dto.guardian.GuardianResponseDto;
 import com.education.eduadmin.entity.Guardian;
 import com.education.eduadmin.entity.Student;
-import com.education.eduadmin.exceptions.AlreadyExitsException;
-import com.education.eduadmin.exceptions.LimitException;
-import com.education.eduadmin.exceptions.ResourceNotFoundException;
+import com.education.eduadmin.exceptions.custom.AlreadyExitsException;
+import com.education.eduadmin.exceptions.custom.LimitException;
+import com.education.eduadmin.exceptions.custom.ResourceNotFoundException;
 import com.education.eduadmin.mapper.GuardianMapper;
 import com.education.eduadmin.repository.GuardianRepository;
 import com.education.eduadmin.repository.StudentRepository;
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service

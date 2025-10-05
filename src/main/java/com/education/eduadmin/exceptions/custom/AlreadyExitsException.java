@@ -1,4 +1,4 @@
-package com.education.eduadmin.exceptions;
+package com.education.eduadmin.exceptions.custom;
 
 public class AlreadyExitsException extends RuntimeException {
 
